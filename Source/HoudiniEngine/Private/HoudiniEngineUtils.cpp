@@ -900,7 +900,6 @@ FHoudiniEngineUtils::SafeRenameActor(AActor* InActor, const FString& InName, boo
 
 	if (UpdateLabel)
 	{
-		//InActor->SetActorLabel(InName, true);
 		FHoudiniEngineRuntimeUtils::SetActorLabel(InActor, InName);
 		InActor->Modify(true);
 	}
@@ -6043,9 +6042,9 @@ FHoudiniEngineUtils::ContainsInvalidLightmapFaces(const FRawMesh & RawMesh, int3
 
 	for (int32 Idx = 0; Idx < Indices.Num(); Idx += 3)
 	{
-		const FVector2D & uv0 = LightmapUVs[Idx + 0];
-		const FVector2D & uv1 = LightmapUVs[Idx + 1];
-		const FVector2D & uv2 = LightmapUVs[Idx + 2];
+		const FVector2f & uv0 = LightmapUVs[Idx + 0];
+		const FVector2f & uv1 = LightmapUVs[Idx + 1];
+		const FVector2f & uv2 = LightmapUVs[Idx + 2];
 
 		if (uv0 == uv1 && uv1 == uv2)
 		{
