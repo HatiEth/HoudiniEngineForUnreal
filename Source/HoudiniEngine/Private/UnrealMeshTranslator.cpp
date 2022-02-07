@@ -1745,7 +1745,7 @@ FUnrealMeshTranslator::CreateInputNodeForStaticMeshLODResources(
 					{
 						for (uint32 UVLayerIndex = 0; UVLayerIndex < NumUVLayers; ++UVLayerIndex)
 						{
-							const FVector2D &UV = LODResources.VertexBuffers.StaticMeshVertexBuffer.GetVertexUV(UEVertexIndex, UVLayerIndex);
+							const FVector2f &UV = LODResources.VertexBuffers.StaticMeshVertexBuffer.GetVertexUV(UEVertexIndex, UVLayerIndex);
 							UVs[UVLayerIndex][Float3Index + 0] = UV.X;
 							UVs[UVLayerIndex][Float3Index + 1] = 1.0f - UV.Y;
 							UVs[UVLayerIndex][Float3Index + 2] = 0;
@@ -2648,7 +2648,7 @@ FUnrealMeshTranslator::CreateInputNodeForMeshDescription(
 					{
 						for (int32 UVLayerIndex = 0; UVLayerIndex < NumUVLayers; ++UVLayerIndex)
 						{
-							const FVector2D &UV = VertexInstanceUVs.Get(VertexInstanceID, UVLayerIndex);
+							const FVector2f &UV = VertexInstanceUVs.Get(VertexInstanceID, UVLayerIndex);
 							UVs[UVLayerIndex][Float3Index + 0] = UV.X;
 							UVs[UVLayerIndex][Float3Index + 1] = 1.0f - UV.Y;
 							UVs[UVLayerIndex][Float3Index + 2] = 0;
@@ -2660,7 +2660,7 @@ FUnrealMeshTranslator::CreateInputNodeForMeshDescription(
 					//---------------------------------------------------------------------------------------------------------------------
 					if (bIsVertexInstanceNormalsValid)
 					{
-						const FVector &Normal = VertexInstanceNormals.Get(VertexInstanceID);
+						const FVector3f &Normal = VertexInstanceNormals.Get(VertexInstanceID);
 						Normals[Float3Index + 0] = Normal.X;
 						Normals[Float3Index + 1] = Normal.Z;
 						Normals[Float3Index + 2] = Normal.Y;

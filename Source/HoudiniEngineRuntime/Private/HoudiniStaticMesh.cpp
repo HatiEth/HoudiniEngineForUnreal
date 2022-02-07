@@ -138,7 +138,7 @@ void UHoudiniStaticMesh::SetNumUVLayers(uint32 InNumUVLayers)
 	{
 		VertexInstanceUVs.SetNumUninitialized(GetNumVertexInstances() * NumUVLayers);
 		for (int32 n = 0; n < VertexInstanceUVs.Num(); n++)
-			VertexInstanceUVs[n] = FVector2D::ZeroVector;
+			VertexInstanceUVs[n] = FVector2f::ZeroVector;
 	}
 	else
 		VertexInstanceUVs.Empty();
@@ -225,7 +225,7 @@ void UHoudiniStaticMesh::SetTriangleVertexColor(uint32 InTriangleIndex, uint8 In
 	VertexInstanceColors[VertexInstanceIndex] = InColor;
 }
 
-void UHoudiniStaticMesh::SetTriangleVertexUV(uint32 InTriangleIndex, uint8 InTriangleVertexIndex, uint8 InUVLayer, const FVector2D& InUV)
+void UHoudiniStaticMesh::SetTriangleVertexUV(uint32 InTriangleIndex, uint8 InTriangleVertexIndex, uint8 InUVLayer, const FVector2f& InUV)
 {
 	if (NumUVLayers <= 0)
 	{

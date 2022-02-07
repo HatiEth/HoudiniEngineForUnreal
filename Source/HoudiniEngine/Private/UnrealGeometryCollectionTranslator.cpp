@@ -835,23 +835,23 @@ bool FUnrealGeometryCollectionTranslator::AddGeometryCollectionDetailAttributes(
 	
 	// Clustering - Damage thresholds
 	// Damage thresholds are not yet available in vanilla 4.26.
-	if (GeometryCollectionObject->DamageThreshold.Num() > 0)
+	if (GeometryCollectionObject->DamageThreshold_DEPRECATED.Num() > 0)
 	{
-		TArray<float> AttributeData(GeometryCollectionObject->DamageThreshold);
+		TArray<float> AttributeData(GeometryCollectionObject->DamageThreshold_DEPRECATED);
 
 		// We have one array with DamageThreshold.Num() elements.
 		TArray<int32> AttributeDataSizes;
-		AttributeDataSizes.SetNumUninitialized(GeometryCollectionObject->DamageThreshold.Num());
+		AttributeDataSizes.SetNumUninitialized(GeometryCollectionObject->DamageThreshold_DEPRECATED.Num());
 		for (int32 n = 0; n < AttributeDataSizes.Num(); n++)
 			AttributeDataSizes[n] = 0;
 
-		AttributeDataSizes[0] = GeometryCollectionObject->DamageThreshold.Num();
+		AttributeDataSizes[0] = GeometryCollectionObject->DamageThreshold_DEPRECATED.Num();
 		
 		HAPI_AttributeInfo AttributeInfo;
 		FHoudiniApi::AttributeInfo_Init(&AttributeInfo);
 		AttributeInfo.count = 1;
 		AttributeInfo.tupleSize = 1;
-		AttributeInfo.totalArrayElements = GeometryCollectionObject->DamageThreshold.Num();
+		AttributeInfo.totalArrayElements = GeometryCollectionObject->DamageThreshold_DEPRECATED.Num();
 		AttributeInfo.exists = true;
 		AttributeInfo.owner = HAPI_ATTROWNER_DETAIL;
 		AttributeInfo.storage = HAPI_STORAGETYPE_FLOAT_ARRAY;

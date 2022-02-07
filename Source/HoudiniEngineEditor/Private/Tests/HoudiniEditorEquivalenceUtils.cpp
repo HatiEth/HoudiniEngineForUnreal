@@ -1061,6 +1061,18 @@ bool FHoudiniEditorEquivalenceUtils::IsEquivalent(const FVector& A, const FVecto
 	return Result;
 }
 
+bool FHoudiniEditorEquivalenceUtils::IsEquivalent(const FVector3f& A, const FVector3f& B)
+{
+	const FString Header = "FVector";
+	bool Result = true;
+
+	Result &= TestExpressionError(FMath::IsNearlyEqual(A.X, B.X, FLOAT_TOLERANCE), Header, "X");
+	Result &= TestExpressionError(FMath::IsNearlyEqual(A.Y, B.Y, FLOAT_TOLERANCE), Header, "Y");
+	Result &= TestExpressionError(FMath::IsNearlyEqual(A.Z, B.Z, FLOAT_TOLERANCE), Header, "Z");
+
+	return Result;
+}
+
 bool FHoudiniEditorEquivalenceUtils::IsEquivalent(const FQuat& A, const FQuat& B)
 {
 	const FString Header = "FQuat";
@@ -1087,6 +1099,17 @@ bool FHoudiniEditorEquivalenceUtils::IsEquivalent(const FIntVector& A, const FIn
 }
 
 bool FHoudiniEditorEquivalenceUtils::IsEquivalent(const FVector2D& A, const FVector2D& B)
+{
+	const FString Header = "FVector2D";
+	bool Result = true;
+
+	Result &= TestExpressionError(FMath::IsNearlyEqual(A.X, B.X, FLOAT_TOLERANCE), Header, "X");
+	Result &= TestExpressionError(FMath::IsNearlyEqual(A.Y, B.Y, FLOAT_TOLERANCE), Header, "Y");
+
+	return Result;
+}
+
+bool FHoudiniEditorEquivalenceUtils::IsEquivalent(const FVector2f& A, const FVector2f& B)
 {
 	const FString Header = "FVector2D";
 	bool Result = true;

@@ -127,9 +127,11 @@ public:
 	static bool IsEquivalent(const FColor& A, const FColor& B);
 	static bool IsEquivalent(const FLinearColor& A, const FLinearColor& B);
 	static bool IsEquivalent(const FVector& A, const FVector& B);
+	static bool IsEquivalent(const FVector3f& A, const FVector3f& B);
 	static bool IsEquivalent(const FQuat& A, const FQuat& B);
 	static bool IsEquivalent(const FIntVector& A, const FIntVector& B);
 	static bool IsEquivalent(const FVector2D& A, const FVector2D& B);
+	static bool IsEquivalent(const FVector2f& A, const FVector2f& B);
 	static bool IsEquivalent(const FStaticMaterial& A, const FStaticMaterial& B);
 	static bool IsEquivalent(const FBox& A, const FBox& B);
 

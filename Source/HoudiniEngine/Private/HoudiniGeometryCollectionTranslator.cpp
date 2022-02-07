@@ -664,7 +664,7 @@ void FHoudiniGeometryCollectionTranslator::ApplyGeometryCollectionAttributes(UGe
 			{
 				if (FloatData.Num() > 0)
 				{
-					GeometryCollection->DamageThreshold = FloatData;
+					GeometryCollection->DamageThreshold_DEPRECATED = FloatData;
 				}
 			}
 		}

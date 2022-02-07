@@ -382,7 +382,7 @@ void FHoudiniStaticMeshSceneProxy::PopulateBuffers(const UHoudiniStaticMesh *InM
 	const TArray<FVector>& VertexInstanceNormals = InMesh->GetVertexInstanceNormals();
 	const TArray<FVector>& VertexInstanceUTangents = InMesh->GetVertexInstanceUTangents();
 	const TArray<FVector>& VertexInstanceVTangents = InMesh->GetVertexInstanceVTangents();
-	const TArray<FVector2D>& VertexInstanceUVs = InMesh->GetVertexInstanceUVs();
+	const TArray<FVector2f>& VertexInstanceUVs = InMesh->GetVertexInstanceUVs();
 
 	const bool bHasColors = InMesh->HasColors();
 	const bool bHasNormals = InMesh->HasNormals();
@@ -426,7 +426,7 @@ void FHoudiniStaticMeshSceneProxy::PopulateBuffers(const UHoudiniStaticMesh *InM
 			}
 			else
 			{
-				InBuffers->StaticMeshVertexBuffer.SetVertexUV(VertIdx, 0, FVector2D::ZeroVector);
+				InBuffers->StaticMeshVertexBuffer.SetVertexUV(VertIdx, 0, FVector2f::ZeroVector);
 			}
 
 			InBuffers->ColorVertexBuffer.VertexColor(VertIdx) = bHasColors ? VertexInstanceColors[MeshVtxInstanceIdx] : DefaultVertexColor;
