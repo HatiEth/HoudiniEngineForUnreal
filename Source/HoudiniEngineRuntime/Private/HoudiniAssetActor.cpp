@@ -45,6 +45,9 @@ AHoudiniAssetActor::AHoudiniAssetActor(const FObjectInitializer & ObjectInitiali
 	//HoudiniAssetComponent->SetCollisionProfileName(UCollisionProfile::BlockAll_ProfileName);
 
 	RootComponent = HoudiniAssetComponent;
+
+	// Disable Is Spatially Loaded by default 
+	bIsSpatiallyLoaded = false;
 }
 
 UHoudiniAssetComponent *

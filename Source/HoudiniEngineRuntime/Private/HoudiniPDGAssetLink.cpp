@@ -1984,7 +1984,7 @@ FOutputActorOwner::CreateOutputActor(UWorld* InWorld, UHoudiniPDGAssetLink* InAs
 	AActor *Actor = WorldToSpawnIn->SpawnActor<AActor>(SpawnParams);
 	SetOutputActor(Actor);
 #if WITH_EDITOR
-	FHoudiniEngineRuntimeUtils::SetActorLabel(Actor, InName.ToString());
+	// FHoudiniEngineRuntimeUtils::SetActorLabel(Actor, InName.ToString());
 #endif
 	
 	// Set the actor transform: create a root component if it does not have one
