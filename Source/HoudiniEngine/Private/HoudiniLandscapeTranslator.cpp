@@ -805,13 +805,14 @@ FHoudiniLandscapeTranslator::OutputLandscape_GenerateTile(
 	{
 		// Streaming proxy tiles always require a "shared landscape" that contains the
 		// various landscape properties to be shared amongst all the tiles.
-		AActor* FoundActor = nullptr;
-		SharedLandscapeActor = FHoudiniEngineUtils::FindOrRenameInvalidActor<ALandscape>(TileWorld, SharedLandscapeActorName, FoundActor);
+		ALandscape* FoundActor = nullptr;
+		FoundActor = FHoudiniEngineUtils::FindActorInWorldByLabel<ALandscape>(TileWorld, SharedLandscapeActorName);
 
-		bool bIsValidSharedLandscape = IsValid(SharedLandscapeActor);
+		bool bIsValidSharedLandscape = IsValid(FoundActor);
 
 		if (bIsValidSharedLandscape)
 		{
+			SharedLandscapeActor = FoundActor;
 			// We have a target landscape. Check whether it is compatible with the Houdini volume.
 			ULandscapeInfo* LandscapeInfo = SharedLandscapeActor->GetLandscapeInfo();
 			
