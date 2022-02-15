@@ -492,7 +492,7 @@ bool FHoudiniEngineRuntimeUtils::SetActorLabel(AActor* Actor, const FString& Act
 	{
 		return false;
 	}
-	Actor->Rename(*NewActorLabel);
+	Actor->SetActorLabel(*NewActorLabel);
 	return true;
 }
 
