@@ -403,6 +403,8 @@ FHoudiniPDGTranslator::CreateAllResultObjectsFromPDGOutputs(
 					CreatedPackages);
 				// Attach any landscape actors to InOuterComponent
 				LandscapeOutputs.Add(CurOutput);
+				
+				GEngine->ForceGarbageCollection(true);
 			}
 			break;
 

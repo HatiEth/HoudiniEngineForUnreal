@@ -1570,6 +1570,7 @@ FHoudiniLandscapeTranslator::OutputLandscape_GenerateTile(
 		TileActor,
 		PackageParams.PackageMode);
 
+
 #if defined(HOUDINI_ENGINE_DEBUG_LANDSCAPE)
 	if (LandscapeInfo)
 	{
@@ -1583,6 +1584,14 @@ FHoudiniLandscapeTranslator::OutputLandscape_GenerateTile(
 	HOUDINI_LANDSCAPE_MESSAGE(TEXT("[OutputLandscape_Generate] Ending with num of output objects: %d"), InOutput->GetOutputObjects().Num());
 #endif
 
+	
+	// We use World Partition? Disable the tile to save memory
+	if(bRequiresSharedLandscape && TileActor && HAC && HAC->GetWorld())
+	{
+		auto* WorldPartition = HAC->GetWorld()->GetWorldPartition();
+		//~ todo(Hati) Actually figure out how to unload with WP?
+	}
+	
 	return true;
 }
 
@@ -2131,7 +2140,7 @@ FHoudiniLandscapeTranslator::OutputLandscape_ModifyLayer(
 	// Editable layers doesn't currently require any attributes / tokens to be cached.
 	// OutputObj.CachedAttributes = OutputAttributes;
 	// OutputObj.CachedTokens = OutputTokens;
-	
+
 	return true;
 }
 
