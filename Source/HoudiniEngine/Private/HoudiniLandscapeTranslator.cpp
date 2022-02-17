@@ -74,6 +74,9 @@
 	#include "LandscapeFileFormatInterface.h"
 #endif
 
+#include <Engine/Public/WorldPartition/WorldPartition.h>
+
+
 static TAutoConsoleVariable<int32> CVarHoudiniEngineExportLandscapeTextures(
 	TEXT("HoudiniEngine.ExportLandscapeTextures"),
 	0,
@@ -1588,8 +1591,11 @@ FHoudiniLandscapeTranslator::OutputLandscape_GenerateTile(
 	// We use World Partition? Disable the tile to save memory
 	if(bRequiresSharedLandscape && TileActor && HAC && HAC->GetWorld())
 	{
-		auto* WorldPartition = HAC->GetWorld()->GetWorldPartition();
-		//~ todo(Hati) Actually figure out how to unload with WP?
+		UWorldPartition* WorldPartition = HAC->GetWorld()->GetWorldPartition();
+		// This is how "Unload All Cells" works in the Editor
+		const FBox AllCellsBox(FVector(-WORLDPARTITION_MAX, -WORLDPARTITION_MAX, -WORLDPARTITION_MAX), FVector(WORLDPARTITION_MAX, WORLDPARTITION_MAX, WORLDPARTITION_MAX));
+		WorldPartition->UnloadEditorCells(AllCellsBox, true);
+		GEditor->RedrawLevelEditingViewports();
 	}
 	
 	return true;
