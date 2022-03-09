@@ -1591,11 +1591,18 @@ FHoudiniLandscapeTranslator::OutputLandscape_GenerateTile(
 	// We use World Partition? Disable the tile to save memory
 	if(bRequiresSharedLandscape && TileActor && HAC && HAC->GetWorld())
 	{
+		ULevel* Level = HAC->GetWorld()->GetCurrentLevel();
+		TArray<UPackage*> TileActorPackages = Level->GetLoadedExternalObjectPackages() ;
+		FEditorFileUtils::PromptForCheckoutAndSave(TileActorPackages, true, false, 0, true, false);
+
+
 		UWorldPartition* WorldPartition = HAC->GetWorld()->GetWorldPartition();
 		// This is how "Unload All Cells" works in the Editor
 		const FBox AllCellsBox(FVector(-WORLDPARTITION_MAX, -WORLDPARTITION_MAX, -WORLDPARTITION_MAX), FVector(WORLDPARTITION_MAX, WORLDPARTITION_MAX, WORLDPARTITION_MAX));
 		WorldPartition->UnloadEditorCells(AllCellsBox, true);
 		GEditor->RedrawLevelEditingViewports();
+
+		GEditor->ForceGarbageCollection(true);
 	}
 	
 	return true;
