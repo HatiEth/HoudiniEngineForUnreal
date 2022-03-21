@@ -2666,13 +2666,13 @@ FHoudiniInstanceTranslator::CreateOrUpdateFoliageInstances(
 		{
 			FoliageInstance.Location = CurrentTransform.GetLocation();
 			FoliageInstance.Rotation = CurrentTransform.GetRotation().Rotator();
-			FoliageInstance.DrawScale3D = CurrentTransform.GetScale3D();
+			FoliageInstance.DrawScale3D = FVector3f(CurrentTransform.GetScale3D());
 		}
 		else
 		{
 			FoliageInstance.Location = HoudiniAssetTransform.TransformPosition(CurrentTransform.GetLocation());
 			FoliageInstance.Rotation = HoudiniAssetTransform.TransformRotation(CurrentTransform.GetRotation()).Rotator();
-			FoliageInstance.DrawScale3D = CurrentTransform.GetScale3D() * HoudiniAssetTransform.GetScale3D();
+			FoliageInstance.DrawScale3D = FVector3f(CurrentTransform.GetScale3D() * HoudiniAssetTransform.GetScale3D());
 		}
 
 		FoliageInfo->AddInstance(FoliageType, FoliageInstance);

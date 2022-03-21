@@ -1239,12 +1239,12 @@ void FHoudiniGeometryCollectionTranslator::AppendStaticMesh(
 				const TArray<FVertexInstanceID>& InstanceIDs = SplitVertex.Value;
 				const FVertexInstanceID& ExemplarInstanceID = InstanceIDs[0];
 
-				TargetVertex[CurrentVertex] = SourcePosition[VertexIndex] * Scale;
+				TargetVertex[CurrentVertex] = SourcePosition[VertexIndex] * FVector3f(Scale);
 				TargetBoneMap[CurrentVertex] = GeometryCollection->NumElements(FGeometryCollection::TransformGroup);
 
 				TargetNormal[CurrentVertex] = SourceNormal[ExemplarInstanceID];
 				TargetTangentU[CurrentVertex] = SourceTangent[ExemplarInstanceID];
-				TargetTangentV[CurrentVertex] = SourceBinormalSign[ExemplarInstanceID] * FVector::CrossProduct(TargetNormal[CurrentVertex], TargetTangentU[CurrentVertex]);
+				TargetTangentV[CurrentVertex] = SourceBinormalSign[ExemplarInstanceID] * FVector3f::CrossProduct(TargetNormal[CurrentVertex], TargetTangentU[CurrentVertex]);
 
 				TargetUVs[CurrentVertex] = SplitVertex.Key.UVs;
 
@@ -1361,7 +1361,7 @@ void FHoudiniGeometryCollectionTranslator::AppendStaticMesh(
 		FVector Center(0);
 		for (int32 VertexIndex = VertexStart; VertexIndex < VertexStart + VertexCount; VertexIndex++)
 		{
-			Center += TargetVertex[VertexIndex];
+			Center += FVector(TargetVertex[VertexIndex]);
 		}
 		if (VertexCount) Center /= VertexCount;
 
@@ -1371,9 +1371,10 @@ void FHoudiniGeometryCollectionTranslator::AppendStaticMesh(
 		OuterRadius[GeometryIndex] = -FLT_MAX;
 		for (int32 VertexIndex = VertexStart; VertexIndex < VertexStart + VertexCount; VertexIndex++)
 		{
-			BoundingBox[GeometryIndex] += TargetVertex[VertexIndex];
+			const FVector& Vertex = FVector(TargetVertex[VertexIndex]);
+			BoundingBox[GeometryIndex] += Vertex;
 
-			float Delta = (Center - TargetVertex[VertexIndex]).Size();
+			float Delta = (Center - Vertex).Size();
 			InnerRadius[GeometryIndex] = FMath::Min(InnerRadius[GeometryIndex], Delta);
 			OuterRadius[GeometryIndex] = FMath::Max(OuterRadius[GeometryIndex], Delta);
 		}
@@ -1384,7 +1385,7 @@ void FHoudiniGeometryCollectionTranslator::AppendStaticMesh(
 			FVector Centroid(0);
 			for (int e = 0; e < 3; e++)
 			{
-				Centroid += TargetVertex[TargetIndices[fdx][e]];
+				Centroid += FVector(TargetVertex[TargetIndices[fdx][e]]);
 			}
 			Centroid /= 3;
 
@@ -1399,7 +1400,7 @@ void FHoudiniGeometryCollectionTranslator::AppendStaticMesh(
 			for (int e = 0; e < 3; e++)
 			{
 				int i = e, j = (e + 1) % 3;
-				FVector Edge = TargetVertex[TargetIndices[fdx][i]] + 0.5 * (TargetVertex[TargetIndices[fdx][j]] - TargetVertex[TargetIndices[fdx][i]]);
+				FVector Edge = FVector(TargetVertex[TargetIndices[fdx][i]] + 0.5 * (TargetVertex[TargetIndices[fdx][j]] - TargetVertex[TargetIndices[fdx][i]]));
 				float Delta = (Center - Edge).Size();
 				InnerRadius[GeometryIndex] = FMath::Min(InnerRadius[GeometryIndex], Delta);
 				OuterRadius[GeometryIndex] = FMath::Max(OuterRadius[GeometryIndex], Delta);

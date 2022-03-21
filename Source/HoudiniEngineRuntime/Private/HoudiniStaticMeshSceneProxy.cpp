@@ -403,7 +403,7 @@ void FHoudiniStaticMeshSceneProxy::PopulateBuffers(const UHoudiniStaticMesh *InM
 			const uint32 MeshVtxIdx = TriIndices[TriVertIdx];
 			const uint32 MeshVtxInstanceIdx = TriangleID * 3 + TriVertIdx;
 
-			InBuffers->PositionVertexBuffer.VertexPosition(VertIdx) = VertexPositions[TriIndices[TriVertIdx]];
+			InBuffers->PositionVertexBuffer.VertexPosition(VertIdx) = FVector3f(VertexPositions[TriIndices[TriVertIdx]]);
 
 			FVector Normal = bHasNormals ? VertexInstanceNormals[MeshVtxInstanceIdx] : FVector(0, 0, 1);
 			if (bHasTangents)
@@ -415,7 +415,7 @@ void FHoudiniStaticMeshSceneProxy::PopulateBuffers(const UHoudiniStaticMesh *InM
 			{
 				Normal.FindBestAxisVectors(TangentU, TangentV);
 			}
-			InBuffers->StaticMeshVertexBuffer.SetVertexTangents(VertIdx, TangentU, TangentV, Normal);
+			InBuffers->StaticMeshVertexBuffer.SetVertexTangents(VertIdx, FVector3f(TangentU), FVector3f(TangentV), FVector3f(Normal));
 
 			if (NumUVLayers > 0)
 			{

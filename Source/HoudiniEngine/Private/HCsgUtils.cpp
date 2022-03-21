@@ -384,7 +384,7 @@ void UHCsgUtils::FilterEdPoly
 		// See whether Node's iFront or iBack points to the side of the tree on the front
 		// of this polygon (will be as expected if this polygon is facing the same
 		// way as first coplanar in link, otherwise opposite).
-		if( (FVector(Model->Nodes[iNode].Plane) | EdPoly->Normal) >= 0.0 )
+		if( (FVector3f(Model->Nodes[iNode].Plane) | EdPoly->Normal) >= 0.0 )
 		{
 			iOurFront = Model->Nodes[iNode].iFront;
 			iOurBack  = Model->Nodes[iNode].iBack;
@@ -639,7 +639,7 @@ void UHCsgUtils::FilterWorldThroughBrush
 		int DoFront = 1, DoBack = 1;
 		if( BrushSphere )
 		{
-			float Dist = Model->Nodes[iNode].Plane.PlaneDot( BrushSphere->Center );
+			float Dist = Model->Nodes[iNode].Plane.PlaneDot( FVector3f(BrushSphere->Center) );
 			DoFront    = (Dist >= -BrushSphere->W);
 			DoBack     = (Dist <= +BrushSphere->W);
 		}
@@ -969,9 +969,9 @@ int UHCsgUtils::ComposeBrushCSG
 	const bool bIsMirrored = (Scale.X * Scale.Y * Scale.Z < 0.0f);
 
 	// Cache actor transform which is used for the geometry being built
-	Brush->OwnerLocationWhenLastBuilt = Location;
+	Brush->OwnerLocationWhenLastBuilt = FVector3f(Location);
 	Brush->OwnerRotationWhenLastBuilt = Rotation;
-	Brush->OwnerScaleWhenLastBuilt = Scale;
+	Brush->OwnerScaleWhenLastBuilt = FVector3f(Scale);
 	Brush->bCachedOwnerTransformValid = true;
 
 	for( i=0; i<Brush->Polys->Element.Num(); i++ )
@@ -1006,9 +1006,9 @@ int UHCsgUtils::ComposeBrushCSG
 		}
 
 		// Transform it.
-		DestEdPoly.Scale( Scale );
+		DestEdPoly.Scale( FVector3f(Scale) );
 		DestEdPoly.Rotate(FRotator3f(Rotation));
-		DestEdPoly.Transform( Location );
+		DestEdPoly.Transform( FVector3f(Location) );
 
 		// Reverse winding and normal if the parent brush is mirrored
 		if (bIsMirrored)
@@ -1135,9 +1135,9 @@ int UHCsgUtils::ComposeBrushCSG
 		for( i=0; i<Brush->Polys->Element.Num(); i++ )
 		{
 			FPoly *DestEdPoly = &Brush->Polys->Element[i];
-			DestEdPoly->Transform(-Location);
+			DestEdPoly->Transform(FVector3f(-Location));
 			DestEdPoly->Rotate(FRotator3f(Rotation.GetInverse()));
-			DestEdPoly->Scale(FVector(1.0f) / Scale);
+			DestEdPoly->Scale(FVector3f(FVector(1.0f) / Scale));
 			DestEdPoly->Fix();
 			DestEdPoly->Actor		= NULL;
 			DestEdPoly->iBrushPoly	= i;
@@ -1194,7 +1194,7 @@ int UHCsgUtils::TryToMerge( FPoly *Poly1, FPoly *Poly2 )
 	int32 Start1=0, Start2=0;
 	for( Start1=0; Start1<Poly1->Vertices.Num(); Start1++ )
 		for( Start2=0; Start2<Poly2->Vertices.Num(); Start2++ )
-			if( FVector::PointsAreSame(Poly1->Vertices[Start1], Poly2->Vertices[Start2]) )
+			if( FVector3f::PointsAreSame(Poly1->Vertices[Start1], Poly2->Vertices[Start2]) )
 				goto FoundOverlap;
 	return 0;
 	FoundOverlap:
@@ -1204,7 +1204,7 @@ int UHCsgUtils::TryToMerge( FPoly *Poly1, FPoly *Poly2 )
 	int32 End2  = Start2;
 	int32 Test1 = Start1+1; if (Test1>=Poly1->Vertices.Num()) Test1 = 0;
 	int32 Test2 = Start2-1; if (Test2<0)                   Test2 = Poly2->Vertices.Num()-1;
-	if( FVector::PointsAreSame(Poly1->Vertices[Test1],Poly2->Vertices[Test2]) )
+	if( FVector3f::PointsAreSame(Poly1->Vertices[Test1],Poly2->Vertices[Test2]) )
 	{
 		End1   = Test1;
 		Start2 = Test2;
@@ -1213,7 +1213,7 @@ int UHCsgUtils::TryToMerge( FPoly *Poly1, FPoly *Poly2 )
 	{
 		Test1 = Start1-1; if (Test1<0)                   Test1=Poly1->Vertices.Num()-1;
 		Test2 = Start2+1; if (Test2>=Poly2->Vertices.Num()) Test2=0;
-		if( FVector::PointsAreSame(Poly1->Vertices[Test1],Poly2->Vertices[Test2]) )
+		if( FVector3f::PointsAreSame(Poly1->Vertices[Test1],Poly2->Vertices[Test2]) )
 		{
 			Start1 = Test1;
 			End2   = Test2;
@@ -1308,8 +1308,8 @@ void UHCsgUtils::bspMergeCoplanars( UModel* Model, bool RemapLinks, bool MergeDi
 					&&	Dist<0.001
 					&&	(OtherPoly->Normal|EdPoly->Normal)>0.9999
 					&&	(MergeDisparateTextures
-						||	(	FVector::PointsAreNear(OtherPoly->TextureU,EdPoly->TextureU,THRESH_VECTORS_ARE_NEAR)
-							&&	FVector::PointsAreNear(OtherPoly->TextureV,EdPoly->TextureV,THRESH_VECTORS_ARE_NEAR) ) ) )
+						||	(	FVector3f::PointsAreNear(OtherPoly->TextureU,EdPoly->TextureU,THRESH_VECTORS_ARE_NEAR)
+							&&	FVector3f::PointsAreNear(OtherPoly->TextureV,EdPoly->TextureV,THRESH_VECTORS_ARE_NEAR) ) ) )
 					{
 						OtherPoly->PolyFlags |= PF_EdProcessed;
 						PolyList[PolyCount++] = j;

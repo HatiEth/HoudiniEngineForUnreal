@@ -2840,7 +2840,7 @@ FHoudiniMeshTranslator::CreateStaticMesh_RawMesh()
 			//		 a no-op on SrcModel->SaveRawMesh (leaves previous data in place).
 			// TODO: perhaps we can use an alternative "error" mesh?
 			RawMesh.Empty();
-			RawMesh.VertexPositions.Add(FVector::ZeroVector);
+			RawMesh.VertexPositions.Add(FVector3f::ZeroVector);
 			RawMesh.WedgeIndices.SetNumZeroed(3);
 			//RawMesh.WedgeTexCoords[0].Init(FVector2D::ZeroVector, RawMesh.WedgeIndices.Num());
 			RawMesh.WedgeTexCoords[0].SetNumUninitialized(RawMesh.WedgeIndices.Num());
@@ -4126,9 +4126,9 @@ FHoudiniMeshTranslator::CreateStaticMesh_MeshDescription()
 						TangentY.Z = SplitTangentV[SplitVertexIndex_Z];
 
 						VertexInstanceBinormalSigns[VertexInstanceID] = GetBasisDeterminantSign(
-							VertexInstanceTangents[VertexInstanceID].GetSafeNormal(),
+							FVector(VertexInstanceTangents[VertexInstanceID].GetSafeNormal()),
 							TangentY.GetSafeNormal(),
-							VertexInstanceNormals[VertexInstanceID].GetSafeNormal());
+							FVector(VertexInstanceNormals[VertexInstanceID].GetSafeNormal()));
 					}
 
 					// Color
@@ -6852,10 +6852,10 @@ FHoudiniMeshTranslator::GenerateKDopAsSimpleCollision(const TArray<FVector>& InP
 		FVector3f Base, AxisX, AxisY;
 
 		Polygon->Init();
-		Polygon->Normal = planes[i];
+		Polygon->Normal = FVector3f(planes[i]);
 		Polygon->Normal.FindBestAxisVectors(AxisX, AxisY);
 
-		Base = planes[i] * planes[i].W;
+		Base = FVector3f(planes[i] * planes[i].W);
 
 		new(Polygon->Vertices) FVector(Base + AxisX * HALF_WORLD_MAX + AxisY * HALF_WORLD_MAX);
 		new(Polygon->Vertices) FVector(Base + AxisX * HALF_WORLD_MAX - AxisY * HALF_WORLD_MAX);
@@ -6866,7 +6866,7 @@ FHoudiniMeshTranslator::GenerateKDopAsSimpleCollision(const TArray<FVector>& InP
 		{
 			if (i != j)
 			{
-				if (!Polygon->Split(-FVector(planes[j]), planes[j] * planes[j].W))
+				if (!Polygon->Split(-FVector3f(planes[j]), FVector3f(planes[j] * planes[j].W)))
 				{
 					Polygon->Vertices.Empty();
 					break;

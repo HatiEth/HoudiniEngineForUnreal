@@ -32,6 +32,7 @@
 
 #include "HBSPOps.generated.h"
 
+class UHBspPointsGrid;
 class AVolume;
 class UModel;
 

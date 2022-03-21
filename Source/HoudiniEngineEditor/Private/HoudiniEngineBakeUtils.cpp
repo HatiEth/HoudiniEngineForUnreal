@@ -746,7 +746,7 @@ FHoudiniEngineBakeUtils::BakeInstancerOutputToFoliage(
 				FFoliageInstance FoliageInstance;
 				FoliageInstance.Location = InstanceTransform.GetLocation();
 				FoliageInstance.Rotation = InstanceTransform.GetRotation().Rotator();
-				FoliageInstance.DrawScale3D = InstanceTransform.GetScale3D();
+				FoliageInstance.DrawScale3D = FVector3f(InstanceTransform.GetScale3D());
 
 				FoliageInfo->AddInstance(FoliageType, FoliageInstance);
 				CurrentInstanceCount++;
@@ -759,7 +759,7 @@ FHoudiniEngineBakeUtils::BakeInstancerOutputToFoliage(
 		FFoliageInstance FoliageInstance;
 		FoliageInstance.Location = ComponentToWorldTransform.GetLocation();
 		FoliageInstance.Rotation = ComponentToWorldTransform.GetRotation().Rotator();
-		FoliageInstance.DrawScale3D = ComponentToWorldTransform.GetScale3D();
+		FoliageInstance.DrawScale3D = FVector3f(ComponentToWorldTransform.GetScale3D());
 
 		FoliageInfo->AddInstance(FoliageType, FoliageInstance);
 
