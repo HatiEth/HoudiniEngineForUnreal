@@ -1602,6 +1602,8 @@ FHoudiniLandscapeTranslator::OutputLandscape_GenerateTile(
 		WorldPartition->UnloadEditorCells(AllCellsBox, true);
 		GEditor->RedrawLevelEditingViewports();
 
+		FEditorFileUtils::PromptForCheckoutAndSave(TileActorPackages, true, false, 0, true, false);
+
 		GEditor->ForceGarbageCollection(true);
 	}
 	
